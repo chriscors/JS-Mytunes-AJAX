@@ -1,20 +1,19 @@
 //Declare elements
 let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
-let song = document.getElementById("song-input");
 let outputDiv = document.getElementById("output");
 
 //add event listener
 searchForm.addEventListener("submit", function (event) {
   event.preventDefault();
   console.log(searchForm.value);
-  fetchResponse(artist.value, song.value);
+  fetchResponse(artist.value);
 });
 
 //declare query function
 function fetchResponse(artist, song) {
-  console.log(encodeURI(artist));
-  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}`;
+  console.log(artist);
+  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=artistTerm`;
   fetch(url, {
     method: "GET",
     headers: {
@@ -26,13 +25,18 @@ function fetchResponse(artist, song) {
     })
     .then(function (parsedResponse) {
       console.log(parsedResponse);
+      outputDiv.replaceChildren();
       generateHTMLElements(parsedResponse.results);
     });
 }
 
 //Element Creation code
 function generateHTMLElements(response) {
+  let row = [document.createElement("div")];
+  row[0].classList.add("row");
+  let counter = 0;
   for (const result of response) {
+    //get results
     let artist = result.artistName;
     let artworkURL = result.artworkUrl100;
     let trackName = result.trackName;
@@ -42,11 +46,12 @@ function generateHTMLElements(response) {
     let releaseYear = new Date(releaseDate).getFullYear();
     let genre = result.primaryGenreName;
 
+    //create elements
     let container = document.createElement("div");
-    container.classList.add("result");
+    container.classList.add("col");
 
     let artworkImg = document.createElement("img");
-    container.classList.add("album-art");
+    artworkImg.classList.add("album-art");
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
 
@@ -73,7 +78,16 @@ function generateHTMLElements(response) {
     previewSource.type = "audio/mpeg";
     previewDIV.appendChild(previewSource);
 
+    //create node tree
     container.append(artworkImg, trackP, albumP, releasedP, previewDIV);
+    if (counter % 4 === 0 && counter > 0) {
+      row[row.length] = document.createElement("div");
+      row[row.length - 1].classList.add("row");
+    }
+    counter++;
+    row[row.length].appendChild(container);
+  }
+  for (const sect of row) {
     outputDiv.appendChild(container);
   }
 }
