@@ -4,13 +4,18 @@ let artist = document.getElementById("artist-input");
 let song = document.getElementById("song-input");
 
 //add event listener
-searchForm.addEventListener("submit", fetchResponse(artist.value, song.value));
+searchForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  console.log(searchForm.value);
+  fetchResponse(artist.value, song.value);
+});
 
 //declare query function
-let url = "https://itunes.apple.com/search?";
 
 function fetchResponse(artist, song) {
-  fetch(`https://itunes.apple.com/search?term=${artist}`, {
+  console.log(encodeURI(artist));
+  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}`;
+  fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -23,11 +28,13 @@ function fetchResponse(artist, song) {
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      console.log(data);
-      return data;
+    .then(function (parsedResponse) {
+      console.log(parsedResponse);
+      generateHTMLElements(parsedResponse);
     });
 }
+
+function generateHTMLElements(response) {}
 
 //Element Creation code
 function enumerateCustomers(customer) {
