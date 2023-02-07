@@ -7,34 +7,24 @@
     <title>Music Search</title>
   </head>
   <body>
-    <header></header>
+    <header><h1>MyTunes</h1></header>
     <main>
-      <h1>Search</h1>
-      <form method="post" action="/" id="login-form">
+      <h2>Search</h2>
+      <form method="post" action="/" id="search-form">
         <div class="input-field">
-          <label for="email-input">Email</label>
-          <input
-            type="email"
-            name="email-input"
-            id="email-input"
-            placeholder="example@domain.com"
-            required
-          />
+          <label for="artist-input">Artist</label>
+          <input type="text" name="artist-input" id="artist-input" />
         </div>
 
         <div class="input-field">
-          <label for="password-input">Password</label>
-          <input
-            type="password"
-            name="password-input"
-            id="password-input"
-            required
-          />
+          <label for="song-input">Song</label>
+          <input type="text" name="song-input" id="song-input" required />
         </div>
         <div class="input-field">
-          <input type="submit" value="Log In" />
+          <input type="submit" value="Search" />
         </div>
       </form>
+      <div class="output" id="output"></div>
     </main>
   </body>
 </html>
