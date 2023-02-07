@@ -2,6 +2,7 @@
 let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
 let song = document.getElementById("song-input");
+let outputDiv = document.getElementById("output");
 
 //add event listener
 searchForm.addEventListener("submit", function (event) {
@@ -11,7 +12,6 @@ searchForm.addEventListener("submit", function (event) {
 });
 
 //declare query function
-
 function fetchResponse(artist, song) {
   console.log(encodeURI(artist));
   let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}`;
@@ -20,67 +20,60 @@ function fetchResponse(artist, song) {
     headers: {
       "Content-Type": "application/json",
     },
-    // body: JSON.stringify({
-    //   username: "",
-    //   password: "",
-    // }),
   })
     .then(function (response) {
       return response.json();
     })
     .then(function (parsedResponse) {
       console.log(parsedResponse);
-      generateHTMLElements(parsedResponse);
+      generateHTMLElements(parsedResponse.results);
     });
 }
 
-function generateHTMLElements(response) {}
-
 //Element Creation code
-function enumerateCustomers(customer) {
-  let newCustomerDiv = document.createElement("div");
-  newCustomerDiv.classList.add("customer");
-  //set Image
-  let cImage = document.createElement("img");
-  cImage.setAttribute("src", customer.picture.large);
-  cImage.setAttribute("alt", "Customer Image");
+function generateHTMLElements(response) {
+  for (const result of response) {
+    let artist = result.artistName;
+    let artworkURL = result.artworkUrl100;
+    let trackName = result.trackName;
+    let album = result.artistName;
+    let previewURL = result.previewUrl;
+    let releaseDate = result.releaseDate;
+    let releaseYear = new Date(releaseDate).getFullYear();
+    let genre = result.primaryGenreName;
 
-  //set Name
-  let cName = document.createElement("h2");
-  cName.classList.add("name");
-  cName.innerText = `${customer.name.first.capitalize()} ${customer.name.last.capitalize()}`;
+    let container = document.createElement("div");
+    container.classList.add("result");
 
-  //set Email
-  let cEmail = document.createElement("a");
-  cEmail.classList.add("light", "email");
-  cEmail.setAttribute("href", `mailto:${customer.email}`);
-  cEmail.innerText = customer.email;
+    let artworkImg = document.createElement("img");
+    container.classList.add("album-art");
+    artworkImg.src = artworkURL;
+    artworkImg.alt = `Album artwork for album ${album}`;
 
-  //set Address
-  let cAddress = document.createElement("p");
-  cAddress.classList.add("small", "address");
-  cAddress.innerText = `${customer.location.street.number} ${customer.location.street.name}
-  ${customer.location.city}, ${customer.location.state} ${customer.location.postcode}`;
+    let trackP = document.createElement("p");
+    trackP.classList.add("line", "track");
+    trackP.innerText = `Song: ${trackName}`;
 
-  //set DOB
-  let cDOB = document.createElement("p");
-  cDOB.classList.add("small", "dob");
-  cDOB.innerText = `DOB: ${moment(customer.dob.date).format("MMM Do YYYY")}`;
+    let albumP = document.createElement("p");
+    albumP.classList.add("line", "album");
+    albumP.innerText = `Album: ${album}`;
 
-  //set joined
-  let cJoined = document.createElement("p");
-  cJoined.classList.add("small", "join");
-  cJoined.innerText = `Member since: ${moment(customer.registered.date).format(
-    "MMM Do YYYY"
-  )}`;
+    let releasedP = document.createElement("p");
+    releasedP.classList.add("line", "released");
+    releasedP.innerText = `Year: ${releaseYear}`;
 
-  //append children
-  newCustomerDiv.appendChild(cImage);
-  newCustomerDiv.appendChild(cName);
-  newCustomerDiv.appendChild(cEmail);
-  newCustomerDiv.appendChild(cAddress);
-  newCustomerDiv.appendChild(cDOB);
-  newCustomerDiv.appendChild(cJoined);
+    let previewDIV = document.createElement("audio");
+    previewDIV.classList.add("audio");
+    previewDIV.controls = true;
+    previewDIV.innerText = "Your browser does not support the audio element.";
 
-  directory.appendChild(newCustomerDiv);
+    let previewSource = document.createElement("source");
+    previewSource.classList.add("source");
+    previewSource.src = previewURL;
+    previewSource.type = "audio/mpeg";
+    previewDIV.appendChild(previewSource);
+
+    container.append(artworkImg, trackP, albumP, releasedP, previewDIV);
+    outputDiv.appendChild(container);
+  }
 }
