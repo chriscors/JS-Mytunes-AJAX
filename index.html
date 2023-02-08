@@ -20,26 +20,68 @@
     <title>Music Search</title>
   </head>
   <body>
-    <header><h1>MyTunes</h1></header>
+    <header class="text-center my-5"><h1>MyTunes</h1></header>
     <main>
-      <h2>Search</h2>
-      <form method="post" id="search-form">
-        <div
-          class="btn-group me-2"
-          role="group"
-          aria-label="Media type selector"
-        >
-          <button type="button" class="btn btn-secondary">Artist</button>
-          <button type="button" class="btn btn-secondary">Song</button>
-          <button type="button" class="btn btn-secondary">Album</button>
+      <form
+        method="post"
+        id="search-form"
+        class="d-flex flex-row justify-content-center align-content-around"
+      >
+        <div role="group" aria-label="Media type selector">
+          <input
+            type="radio"
+            class="btn-check"
+            name="options"
+            id="option2"
+            autocomplete="off"
+            checked
+          />
+          <label
+            class="btn btn-outline-success"
+            for="option2"
+            style="height: 58px"
+            >Artist</label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="options"
+            id="option4"
+            autocomplete="off"
+          />
+          <label
+            class="btn btn-outline-success"
+            for="option4"
+            style="height: 58px"
+            >Song</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            id="success-outlined"
+            autocomplete="off"
+            name="options"
+          />
+          <label
+            class="btn btn-outline-success"
+            for="success-outlined"
+            style="height: 58px"
+            >Album</label
+          >
         </div>
         <div class="form-floating mb-3" style="width: 200px">
-          <input type="text" class="form-control" id="artist-input" />
+          <input
+            type="text"
+            class="form-control input-sm"
+            id="artist-input"
+            placeholder="Artist"
+          />
           <label for="artist-input">Search Term</label>
         </div>
 
         <div class="input-field">
-          <input type="submit" value="Search" />
+          <input type="submit" value="Search" class="btn-primary" />
         </div>
       </form>
       <div class="container-fluid" id="output"></div>

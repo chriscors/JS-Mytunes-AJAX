@@ -11,6 +11,12 @@ searchForm.addEventListener("submit", function (event) {
 
 //declare query function
 function fetchResponse(artist, song) {
+  let spinner = document.createElement("div");
+  spinner.classList.add("spinner-border", "text-light");
+  spinner.role = "status";
+  spinner.id = "spinner";
+  searchForm.appendChild(spinner);
+
   console.log(artist);
   let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=artistTerm&limit=50`;
   console.log(url);
@@ -27,6 +33,8 @@ function fetchResponse(artist, song) {
       console.log(parsedResponse);
       outputDiv.replaceChildren();
       generateHTMLElements(parsedResponse.results);
+      let spinner = document.getElementById("spinner");
+      searchForm.removeChild(spinner);
     });
 }
 
@@ -59,7 +67,7 @@ function generateHTMLElements(response) {
     //create columns
     let leftCol = document.createElement("div");
     leftCol.classList.add("col-md-4", "d-flex", "flex-column");
-    leftCol.style = "max-width: 100px:";
+    leftCol.style = "width: 100px;";
     let rightCol = document.createElement("div");
     rightCol.classList.add("col-md-8");
 
@@ -104,15 +112,15 @@ function generateHTMLElements(response) {
 
     //make track header
     let trackH = document.createElement("h5");
-    trackH.classList.add("card-title", "track");
+    trackH.classList.add("card-title", "text-white");
     trackH.innerText = `${trackName}`;
 
     let albumP = document.createElement("p");
-    albumP.classList.add("card-text", "album");
+    albumP.classList.add("card-text", "text-white", "mb-0");
     albumP.innerText = `Album: ${album}`;
 
     let releasedP = document.createElement("p");
-    releasedP.classList.add("card-text", "released");
+    releasedP.classList.add("card-text", "text-muted");
     releasedP.innerText = `Year: ${releaseYear}`;
 
     // let previewDIV = document.createElement("audio");
