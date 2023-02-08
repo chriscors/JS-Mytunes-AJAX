@@ -6,7 +6,6 @@ let outputDiv = document.getElementById("output");
 //add event listener
 searchForm.addEventListener("submit", function (event) {
   event.preventDefault();
-  console.log(searchForm.value);
   fetchResponse(artist.value);
 });
 
@@ -54,7 +53,7 @@ function generateHTMLElements(response) {
 
     //create outer row
     let enclosingRow = document.createElement("div");
-    enclosingRow.classList.add("row g-0");
+    enclosingRow.classList.add("row", "g-0");
 
     card.appendChild(enclosingRow);
 
@@ -75,11 +74,15 @@ function generateHTMLElements(response) {
 
     //make playButton
     let playButton = document.createElement("button");
-    playButton.classList.add("btn btn-default");
+    playButton.classList.add("btn", "btn-default", "justify-content-center");
 
     //make play icon
     let playIcon = document.createElement("img");
-    playIcon.classList.add("justify-content-center", "img-fluid");
+    playIcon.classList.add(
+      "justify-content-center",
+      "align-content-center",
+      "img-fluid"
+    ); //this may need a d-flex!
     playIcon.src = "https://icons.getbootstrap.com/assets/icons/play.svg";
     playIcon.alt = "Play button";
     //put icon in button
@@ -113,7 +116,7 @@ function generateHTMLElements(response) {
     // previewDIV.appendChild(previewSource);
 
     //create node tree
-    card.append(trackH, albumP, releasedP); //, previewDIV
+    rightCol.append(trackH, albumP, releasedP); //, previewDIV
     //every four cards create new row
     if (counter % 4 === 0 && counter > 0) {
       row[row.length] = document.createElement("div");
