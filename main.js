@@ -49,17 +49,11 @@ function generateHTMLElements(response) {
     //create card
     let card = document.createElement("div");
     //card.classList.add("col-lg-3", "col-md-6", "mb-4", "gx-6");
-    card.classList.add("card", "col-md-6", "col-lg-3", "flex-row");
-
-    // //create outer row
-    // let enclosingRow = document.createElement("div");
-    // enclosingRow.classList.add("row", "g-0");
-
-    // card.appendChild(enclosingRow);
+    card.classList.add("card", "col-md-6", "col-lg-3", "flex-row", "mb-4");
 
     //create columns
     let leftCol = document.createElement("div");
-    leftCol.classList.add("col-md-4");
+    leftCol.classList.add("col-md-4", "d-flex", "flex-column");
     let rightCol = document.createElement("div");
     rightCol.classList.add("col-md-8");
 
