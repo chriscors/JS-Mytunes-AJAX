@@ -12,7 +12,7 @@ searchForm.addEventListener("submit", function (event) {
 //declare query function
 function fetchResponse(artist, song) {
   console.log(artist);
-  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=artistTerm`;
+  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=artistTerm&limit=50`;
   console.log(url);
   fetch(url, {
     method: "GET",
@@ -46,14 +46,20 @@ function generateHTMLElements(response) {
     let releaseYear = new Date(releaseDate).getFullYear();
     let genre = result.primaryGenreName;
 
+    let cardDiv = document.createElement("div");
+    cardDiv.classList.add("col-md-6", "col-lg-3", "mb-4");
     //create card
     let card = document.createElement("div");
-    //card.classList.add("col-lg-3", "col-md-6", "mb-4", "gx-6");
-    card.classList.add("card", "col-md-6", "col-lg-3", "flex-row", "mb-4");
+
+    card.classList.add("card", "flex-row", "bg-secondary");
+
+    //nest Card
+    cardDiv.appendChild(card);
 
     //create columns
     let leftCol = document.createElement("div");
     leftCol.classList.add("col-md-4", "d-flex", "flex-column");
+    leftCol.style = "max-width: 100px:";
     let rightCol = document.createElement("div");
     rightCol.classList.add("col-md-8");
 
@@ -62,13 +68,20 @@ function generateHTMLElements(response) {
 
     //make artworkImage
     let artworkImg = document.createElement("img");
-    artworkImg.classList.add("card-img-top");
+    artworkImg.classList.add(
+      "card-img-top",
+      "ratio",
+      "ratio-1x1",
+      "rounded",
+      "mb-8"
+    );
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
+    artworkImg.style = "max-height: 100px; max-width: 100px";
 
     //make playButton
     let playButton = document.createElement("button");
-    playButton.classList.add("btn", "btn-default", "justify-content-center");
+    playButton.classList.add("btn", "btn-primary", "justify-content-center");
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -122,7 +135,7 @@ function generateHTMLElements(response) {
       row[row.length - 1].classList.add("row");
     }
     counter++;
-    row[row.length - 1].appendChild(card);
+    row[row.length - 1].appendChild(cardDiv);
   }
   //append all rows
   for (const sect of row) {
