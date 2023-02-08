@@ -49,13 +49,13 @@ function generateHTMLElements(response) {
     //create card
     let card = document.createElement("div");
     //card.classList.add("col-lg-3", "col-md-6", "mb-4", "gx-6");
-    card.classList.add("card");
+    card.classList.add("card", "col-md-6", "col-lg-3", "flex-row");
 
-    //create outer row
-    let enclosingRow = document.createElement("div");
-    enclosingRow.classList.add("row", "g-0");
+    // //create outer row
+    // let enclosingRow = document.createElement("div");
+    // enclosingRow.classList.add("row", "g-0");
 
-    card.appendChild(enclosingRow);
+    // card.appendChild(enclosingRow);
 
     //create columns
     let leftCol = document.createElement("div");
@@ -64,7 +64,7 @@ function generateHTMLElements(response) {
     rightCol.classList.add("col-md-8");
 
     //Add columns
-    enclosingRow.append(leftCol, rightCol);
+    card.append(leftCol, rightCol);
 
     //make artworkImage
     let artworkImg = document.createElement("img");
@@ -91,6 +91,10 @@ function generateHTMLElements(response) {
     //put image in left column
     leftCol.append(artworkImg, playButton);
 
+    //make cardBody
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+
     //make track header
     let trackH = document.createElement("h5");
     trackH.classList.add("card-title", "track");
@@ -116,7 +120,8 @@ function generateHTMLElements(response) {
     // previewDIV.appendChild(previewSource);
 
     //create node tree
-    rightCol.append(trackH, albumP, releasedP); //, previewDIV
+    cardBody.append(trackH, albumP, releasedP); //, previewDIV
+    rightCol.appendChild(cardBody);
     //every four cards create new row
     if (counter % 4 === 0 && counter > 0) {
       row[row.length] = document.createElement("div");
