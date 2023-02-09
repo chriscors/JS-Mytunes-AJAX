@@ -2,7 +2,8 @@
 let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
 let outputDiv = document.getElementById("output");
-let searchButtons = document.querySelectorAll("#search-type");
+let searchButtons = document.querySelectorAll(".search-type");
+
 let searchState;
 let inputRow = document.getElementById("input-row");
 
@@ -13,7 +14,7 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 for (button of searchButtons) {
-  if ((button.checked = true)) {
+  if (button.checked === true) {
     searchState = button.value;
   }
   button.addEventListener("click", (event) => {
@@ -22,11 +23,8 @@ for (button of searchButtons) {
 }
 //declare query function
 function fetchResponse(artist, song) {
-  let spinner = document.createElement("div");
-  spinner.classList.add("spinner-border", "text-light");
-  spinner.role = "status";
-  spinner.id = "spinner";
-  searchForm.appendChild(spinner);
+  //add spinner
+  toggleSpinner("add");
 
   console.log(artist);
   let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=${searchState}&limit=50`;
@@ -44,9 +42,26 @@ function fetchResponse(artist, song) {
       console.log(parsedResponse);
       outputDiv.replaceChildren();
       generateHTMLElements(parsedResponse.results);
-      let spinner = document.getElementById("spinner");
-      searchForm.removeChild(spinner);
+      toggleSpinner("remove");
     });
+}
+
+//Toggle spinner
+function toggleSpinner(behavior) {
+  if (behavior === "add") {
+    let spinner = document.createElement("div");
+    spinner.classList.add("spinner-border", "text-light", "text-center");
+    spinner.role = "status";
+
+    let spinRow = document.createElement("div");
+    spinRow.classList.add("row", "justify-content-center");
+    spinRow.id = "spin-row";
+    spinRow.appendChild(spinner);
+    searchForm.appendChild(spinRow);
+  } else if (behavior === "remove") {
+    let spinRow = document.getElementById("spin-row");
+    searchForm.removeChild(spinRow);
+  }
 }
 
 //Element Creation code
@@ -70,37 +85,36 @@ function generateHTMLElements(response) {
     //create card
     let card = document.createElement("div");
 
-    card.classList.add("card", "flex-row", "bg-secondary");
+    card.classList.add("card", "flex-row", "bg-secondary", "w-100");
 
     //nest Card
     cardDiv.appendChild(card);
 
     //create columns
     let leftCol = document.createElement("div");
-    leftCol.classList.add("col-md-4", "d-flex", "flex-column");
+    leftCol.classList.add(
+      "col-md-4",
+      "d-flex",
+      "flex-column",
+      "align-items-center"
+    );
     leftCol.style = "width: 100px;";
+    let midCol = document.createElement("div");
+    midCol.classList.add("col-md-6");
     let rightCol = document.createElement("div");
-    rightCol.classList.add("col-md-8");
-
+    rightCol.classList.add("col-md-2");
     //Add columns
-    card.append(leftCol, rightCol);
+    card.append(leftCol, midCol, rightCol);
 
     //make artworkImage
     let artworkImg = document.createElement("img");
-    artworkImg.classList.add(
-      "card-img-top",
-      "ratio",
-      "ratio-1x1",
-      "rounded",
-      "mb-8"
-    );
+    artworkImg.classList.add("card-img-top", "ratio", "rounded");
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
 
-    //make playButton
-    let playButton = document.createElement("button");
-    playButton.classList.add("btn", "btn-primary", "justify-content-center");
+    //put image in left column
+    leftCol.append(artworkImg);
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -108,22 +122,32 @@ function generateHTMLElements(response) {
       "justify-content-center",
       "align-content-center",
       "img-fluid"
-    ); //this may need a d-flex!
+    );
+    playIcon.width = "40px";
+    playIcon.height = "40px";
     playIcon.src = "https://icons.getbootstrap.com/assets/icons/play.svg";
     playIcon.alt = "Play button";
-    //put icon in button
-    playButton.appendChild(playIcon);
+    //add play icon to right column
+    rightCol.append(playIcon);
 
-    //put image in left column
-    leftCol.append(artworkImg, playButton);
+    //add event listener
+    playIcon.addEventListener("click", (event) => {
+      playIconClick(event, result);
+    });
 
     //make cardBody
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+    cardBody.classList.add(
+      "card-body",
+      "h-100",
+      "d-flex",
+      "flex-column",
+      "justify-content-center"
+    );
 
     //make track header
     let trackH = document.createElement("h5");
-    trackH.classList.add("card-title", "text-white");
+    trackH.classList.add("card-title", "text-white", "mb-0");
     trackH.innerText = `${trackName}`;
 
     let albumP = document.createElement("p");
@@ -147,7 +171,7 @@ function generateHTMLElements(response) {
 
     //create node tree
     cardBody.append(trackH, albumP, releasedP); //, previewDIV
-    rightCol.appendChild(cardBody);
+    midCol.appendChild(cardBody);
     //every four cards create new row
     if (counter % 4 === 0 && counter > 0) {
       row[row.length] = document.createElement("div");
@@ -161,3 +185,5 @@ function generateHTMLElements(response) {
     outputDiv.appendChild(sect);
   }
 }
+
+function playIconClick(event, result) {}
