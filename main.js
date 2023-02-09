@@ -84,7 +84,7 @@ function generateHTMLElements(response) {
     cardDiv.classList.add("col-md-6", "col-lg-3", "mb-4");
     //create card
     let card = document.createElement("div");
-
+    card.style = "height: 8rem";
     card.classList.add("card", "flex-row", "bg-secondary");
 
     //nest Card
@@ -92,30 +92,29 @@ function generateHTMLElements(response) {
 
     //create columns
     let leftCol = document.createElement("div");
-    leftCol.classList.add("col-md-4", "d-flex", "flex-column");
-    leftCol.style = "width: 100px;";
+    leftCol.classList.add(
+      "col-md-3",
+      "d-flex",
+      "flex-column",
+      "align-items-center",
+      "justify-content-center"
+    );
+    let midCol = document.createElement("div");
+    midCol.classList.add("col-md-7");
     let rightCol = document.createElement("div");
-    rightCol.classList.add("col-md-8");
+    rightCol.classList.add("col-md-2, d-flex");
 
     //Add columns
-    card.append(leftCol, rightCol);
+    card.append(leftCol, midCol, rightCol);
 
     //make artworkImage
     let artworkImg = document.createElement("img");
-    artworkImg.classList.add(
-      "card-img-top",
-      "ratio",
-      "ratio-1x1",
-      "rounded",
-      "mb-8"
-    );
+    artworkImg.classList.add("card-img-top", "ratio", "rounded");
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
-
-    //make playButton
-    let playButton = document.createElement("button");
-    playButton.classList.add("btn", "btn-primary", "justify-content-center");
+    //put image in left column
+    leftCol.append(artworkImg);
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -123,18 +122,31 @@ function generateHTMLElements(response) {
       "justify-content-center",
       "align-content-center",
       "img-fluid"
-    ); //this may need a d-flex!
-    playIcon.src = "https://icons.getbootstrap.com/assets/icons/play.svg";
+    );
+    playIcon.width = "40";
+    playIcon.height = "40";
+    playIcon.src =
+      "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
     playIcon.alt = "Play button";
-    //put icon in button
-    playButton.appendChild(playIcon);
 
+    //add play icon to right column
+    rightCol.append(playIcon);
+    //add event listener
+    playIcon.addEventListener("click", (event) => {
+      playIconClick(event, result);
+    });
     //put image in left column
-    leftCol.append(artworkImg, playButton);
+    leftCol.append(artworkImg);
 
     //make cardBody
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+    cardBody.classList.add(
+      "card-body",
+      "h-100",
+      "d-flex",
+      "flex-column",
+      "justify-content-center"
+    );
 
     //make track header
     let trackH = document.createElement("h5");
