@@ -123,7 +123,7 @@ function generateHTMLElements(response) {
 
     //make track header
     let trackH = document.createElement("h5");
-    trackH.classList.add("card-title", "text-white");
+    trackH.classList.add("card-title", "text-white", "mb-0");
     trackH.innerText = `${trackName}`;
 
     let albumP = document.createElement("p");
@@ -147,7 +147,7 @@ function generateHTMLElements(response) {
 
     //create node tree
     cardBody.append(trackH, albumP, releasedP); //, previewDIV
-    rightCol.appendChild(cardBody);
+    midCol.appendChild(cardBody);
     //every four cards create new row
     if (counter % 4 === 0 && counter > 0) {
       row[row.length] = document.createElement("div");
@@ -161,3 +161,5 @@ function generateHTMLElements(response) {
     outputDiv.appendChild(sect);
   }
 }
+
+function playIconClick(event, result) {}
