@@ -85,37 +85,36 @@ function generateHTMLElements(response) {
     //create card
     let card = document.createElement("div");
 
-    card.classList.add("card", "flex-row", "bg-secondary");
+    card.classList.add("card", "flex-row", "bg-secondary", "w-100");
 
     //nest Card
     cardDiv.appendChild(card);
 
     //create columns
     let leftCol = document.createElement("div");
-    leftCol.classList.add("col-md-4", "d-flex", "flex-column");
+    leftCol.classList.add(
+      "col-md-4",
+      "d-flex",
+      "flex-column",
+      "align-items-center"
+    );
     leftCol.style = "width: 100px;";
+    let midCol = document.createElement("div");
+    midCol.classList.add("col-md-6");
     let rightCol = document.createElement("div");
-    rightCol.classList.add("col-md-8");
-
+    rightCol.classList.add("col-md-2");
     //Add columns
-    card.append(leftCol, rightCol);
+    card.append(leftCol, midCol, rightCol);
 
     //make artworkImage
     let artworkImg = document.createElement("img");
-    artworkImg.classList.add(
-      "card-img-top",
-      "ratio",
-      "ratio-1x1",
-      "rounded",
-      "mb-8"
-    );
+    artworkImg.classList.add("card-img-top", "ratio", "rounded");
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
 
-    //make playButton
-    let playButton = document.createElement("button");
-    playButton.classList.add("btn", "btn-primary", "justify-content-center");
+    //put image in left column
+    leftCol.append(artworkImg);
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -123,18 +122,28 @@ function generateHTMLElements(response) {
       "justify-content-center",
       "align-content-center",
       "img-fluid"
-    ); //this may need a d-flex!
+    );
+    playIcon.width = "40px";
+    playIcon.height = "40px";
     playIcon.src = "https://icons.getbootstrap.com/assets/icons/play.svg";
     playIcon.alt = "Play button";
-    //put icon in button
-    playButton.appendChild(playIcon);
+    //add play icon to right column
+    rightCol.append(playIcon);
 
-    //put image in left column
-    leftCol.append(artworkImg, playButton);
+    //add event listener
+    playIcon.addEventListener("click", (event) => {
+      playIconClick(event, result);
+    });
 
     //make cardBody
     let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+    cardBody.classList.add(
+      "card-body",
+      "h-100",
+      "d-flex",
+      "flex-column",
+      "justify-content-center"
+    );
 
     //make track header
     let trackH = document.createElement("h5");
