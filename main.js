@@ -130,7 +130,7 @@ function generateHTMLElements(response) {
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
     // //put image in left column
-    // leftCol.append(artworkImg);
+    leftCol.append(artworkImg);
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -140,7 +140,7 @@ function generateHTMLElements(response) {
     playIcon.src =
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
     playIcon.alt = "Play button";
-    playIcon.style = "cursor: pointer";
+    playIcon.style.cursor = "pointer";
     playIcon.value = "paused";
 
     //add play icon to right column
