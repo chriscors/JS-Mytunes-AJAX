@@ -102,7 +102,7 @@ function generateHTMLElements(response) {
     let midCol = document.createElement("div");
     midCol.classList.add("col-md-7");
     let rightCol = document.createElement("div");
-    rightCol.classList.add("col-md-2, d-flex");
+    rightCol.classList.add("col-md-8");
 
     //Add columns
     card.append(leftCol, midCol, rightCol);
@@ -113,8 +113,10 @@ function generateHTMLElements(response) {
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
-    //put image in left column
-    leftCol.append(artworkImg);
+
+    //make playButton
+    let playButton = document.createElement("button");
+    playButton.classList.add("btn", "btn-primary", "justify-content-center");
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -122,21 +124,14 @@ function generateHTMLElements(response) {
       "justify-content-center",
       "align-content-center",
       "img-fluid"
-    );
-    playIcon.width = "40";
-    playIcon.height = "40";
-    playIcon.src =
-      "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
+    ); //this may need a d-flex!
+    playIcon.src = "https://icons.getbootstrap.com/assets/icons/play.svg";
     playIcon.alt = "Play button";
+    //put icon in button
+    playButton.appendChild(playIcon);
 
-    //add play icon to right column
-    rightCol.append(playIcon);
-    //add event listener
-    playIcon.addEventListener("click", (event) => {
-      playIconClick(event, result);
-    });
     //put image in left column
-    leftCol.append(artworkImg);
+    leftCol.append(artworkImg, playButton);
 
     //make cardBody
     let cardBody = document.createElement("div");
