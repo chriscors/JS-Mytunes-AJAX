@@ -3,9 +3,11 @@ let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
 let outputDiv = document.getElementById("output");
 let searchButtons = document.querySelectorAll(".search-type");
+let playingSong = document.getElementById("playing-song");
 
 let searchState;
 let inputRow = document.getElementById("input-row");
+//import audio from "player.js";
 
 //add event listeners
 searchForm.addEventListener("submit", (event) => {
@@ -102,7 +104,12 @@ function generateHTMLElements(response) {
     let midCol = document.createElement("div");
     midCol.classList.add("col-md-7");
     let rightCol = document.createElement("div");
-    rightCol.classList.add("col-md-2", "d-flex");
+    rightCol.classList.add(
+      "col-md-2",
+      "d-flex",
+      "justify-content-center",
+      "align-items-center"
+    );
 
     //Add columns
     card.append(leftCol, midCol, rightCol);
@@ -118,22 +125,20 @@ function generateHTMLElements(response) {
 
     //make play icon
     let playIcon = document.createElement("img");
-    playIcon.classList.add(
-      "justify-content-center",
-      "align-content-center",
-      "img-fluid"
-    );
+    playIcon.classList.add("img-fluid", "hover-overlay", "ripple", "play-icon");
     playIcon.width = "40";
     playIcon.height = "40";
     playIcon.src =
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
     playIcon.alt = "Play button";
+    playIcon.style = "cursor: pointer";
+    playIcon.value = "paused";
 
     //add play icon to right column
     rightCol.append(playIcon);
     //add event listener
     playIcon.addEventListener("click", (event) => {
-      playIconClick(event, result);
+      playIconClick(event, result, playIcon);
     });
     //put image in left column
     leftCol.append(artworkImg);
@@ -151,6 +156,9 @@ function generateHTMLElements(response) {
     //make track header
     let trackH = document.createElement("h5");
     trackH.classList.add("card-title", "text-white", "mb-0");
+    if (trackName.length > 31) {
+      trackName = `${trackName.substring(0, 29)}...`;
+    }
     trackH.innerText = `${trackName}`;
 
     let albumP = document.createElement("p");
@@ -160,17 +168,6 @@ function generateHTMLElements(response) {
     let releasedP = document.createElement("p");
     releasedP.classList.add("card-text", "text-muted");
     releasedP.innerText = `Year: ${releaseYear}`;
-
-    // let previewDIV = document.createElement("audio");
-    // previewDIV.classList.add("audio");
-    // previewDIV.controls = true;
-    // previewDIV.innerText = "Your browser does not support the audio element.";
-
-    // let previewSource = document.createElement("source");
-    // previewSource.classList.add("source");
-    // previewSource.src = previewURL;
-    // previewSource.type = "audio/mpeg";
-    // previewDIV.appendChild(previewSource);
 
     //create node tree
     cardBody.append(trackH, albumP, releasedP); //, previewDIV
@@ -189,4 +186,19 @@ function generateHTMLElements(response) {
   }
 }
 
-function playIconClick(event, result) {}
+function playIconClick(event, result, icon) {
+  if (icon.value === "paused") {
+    icon.src =
+      "https://img.icons8.com/fluency-systems-regular/48/ffffff/pause--v2.png";
+    icon.value = "playing";
+    icon.classList.add("playing-icon");
+  } else {
+    icon.src =
+      "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
+    icon.value = "paused";
+    icon.classList.remove("playing-icon");
+  }
+  playingSong.innerText = result.trackName;
+  let url = result.previewUrl;
+  click(url);
+}

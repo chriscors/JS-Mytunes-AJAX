@@ -9,6 +9,7 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="styles.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -20,7 +21,12 @@
     <title>Music Search</title>
   </head>
   <body>
-    <header class="text-center my-5"><h1>MyTunes</h1></header>
+    <header
+      class="text-center d-flex slign-items-center justify-content-center mt-5 mb-2"
+    >
+      <img src="pics/pear.png" alt="a pear" width="34px" height="40px" />
+      <h1>MyTunes</h1>
+    </header>
     <main>
       <form method="post" id="search-form" class="container-fluid m-0">
         <div class="row gx-1">
@@ -91,5 +97,37 @@
       </form>
       <div class="container-fluid" id="output"></div>
     </main>
+    <footer>
+      <source src="./backsound.mp3" type="audio/mp3" />
+      <div class="audio-player" style="margin: 0 auto">
+        <div class="timeline">
+          <div class="progress"></div>
+        </div>
+        <div class="controls">
+          <div class="play-container">
+            <div class="toggle-play play"></div>
+          </div>
+          <div class="time">
+            <div class="current">0:00</div>
+            <div class="divider">/</div>
+            <div class="length"></div>
+          </div>
+          <div class="name" id="playing-song">Song Title</div>
+          <!--     credit for icon to https://saeedalipoor.github.io/icono/ -->
+          <div class="volume-container">
+            <div class="volume-button">
+              <div class="volume icono-volumeMedium"></div>
+            </div>
+
+            <div class="volume-slider">
+              <div class="volume-percentage"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- partial -->
+
+      <script src="player.js"></script>
+    </footer>
   </body>
 </html>
