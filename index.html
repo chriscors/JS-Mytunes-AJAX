@@ -22,66 +22,71 @@
   <body>
     <header class="text-center my-5"><h1>MyTunes</h1></header>
     <main>
-      <form
-        method="post"
-        id="search-form"
-        class="d-flex flex-row justify-content-center align-content-around"
-      >
-        <div role="group" aria-label="Media type selector">
-          <input
-            type="radio"
-            class="btn-check"
-            name="options"
-            id="option2"
-            autocomplete="off"
-            checked
-          />
-          <label
-            class="btn btn-outline-success"
-            for="option2"
-            style="height: 58px"
-            >Artist</label
-          >
-
-          <input
-            type="radio"
-            class="btn-check"
-            name="options"
-            id="option4"
-            autocomplete="off"
-          />
-          <label
-            class="btn btn-outline-success"
-            for="option4"
-            style="height: 58px"
-            >Song</label
-          >
-          <input
-            type="radio"
-            class="btn-check"
-            id="success-outlined"
-            autocomplete="off"
-            name="options"
-          />
-          <label
-            class="btn btn-outline-success"
-            for="success-outlined"
-            style="height: 58px"
-            >Album</label
-          >
+      <form method="post" id="search-form" class="container-fluid m-0">
+        <div class="row gx-1">
+          <div class="col-2 offset-3 search-type">
+            <input
+              type="radio"
+              class="btn-check"
+              name="options"
+              id="artist"
+              autocomplete="off"
+              checked
+              value="artistTerm"
+            />
+            <label class="btn btn-outline-success w-100 mb-2" for="artist"
+              >Artist</label
+            >
+          </div>
+          <div class="col-2">
+            <input
+              type="radio"
+              class="btn-check"
+              name="options"
+              id="song"
+              autocomplete="off"
+              value="songTerm"
+            />
+            <label class="btn btn-outline-success w-100 mb-2" for="song"
+              >Song</label
+            >
+          </div>
+          <div class="col-2">
+            <input
+              type="radio"
+              class="btn-check"
+              id="album"
+              autocomplete="off"
+              name="options"
+              value="albumTerm"
+            />
+            <label class="btn btn-outline-success w-100 mb-2" for="album"
+              >Album</label
+            >
+          </div>
         </div>
-        <div class="form-floating mb-3" style="width: 200px">
-          <input
-            type="text"
-            class="form-control input-sm"
-            id="artist-input"
-            placeholder="Artist"
-          />
-          <label for="artist-input">Search Term</label>
-        </div>
-
-        <div class="input-field">
-          <input type="submit" value="Search" class="btn-primary" />
+        <div class="row gx-1" id="input-row">
+          <div class="col-4 offset-3 search-type">
+            <div class="form-floating w-100">
+              <input
+                type="text"
+                class="form-control input-sm"
+                id="artist-input"
+                placeholder="Artist"
+              />
+              <label for="artist-input">Search Term</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-field w-100 h-100">
+              <input
+                type="submit"
+                value="Search"
+                class="btn-primary btn-lg w-100 h-100 rounded border-0 text-white"
+                style="background: #1a8754"
+              />
+            </div>
+          </div>
         </div>
       </form>
       <div class="container-fluid" id="output"></div>

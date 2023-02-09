@@ -2,13 +2,24 @@
 let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
 let outputDiv = document.getElementById("output");
+let searchButtons = document.querySelectorAll("#search-type");
+let searchState;
+let inputRow = document.getElementById("input-row");
 
-//add event listener
-searchForm.addEventListener("submit", function (event) {
+//add event listeners
+searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   fetchResponse(artist.value);
 });
 
+for (button of searchButtons) {
+  if ((button.checked = true)) {
+    searchState = button.value;
+  }
+  button.addEventListener("click", (event) => {
+    searchState = button.value;
+  });
+}
 //declare query function
 function fetchResponse(artist, song) {
   let spinner = document.createElement("div");
@@ -18,7 +29,7 @@ function fetchResponse(artist, song) {
   searchForm.appendChild(spinner);
 
   console.log(artist);
-  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=artistTerm&limit=50`;
+  let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=${searchState}&limit=50`;
   console.log(url);
   fetch(url, {
     method: "GET",
