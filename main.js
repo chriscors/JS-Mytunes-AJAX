@@ -2,7 +2,8 @@
 let searchForm = document.getElementById("search-form");
 let artist = document.getElementById("artist-input");
 let outputDiv = document.getElementById("output");
-let searchButtons = document.querySelectorAll("#search-type");
+let searchButtons = document.querySelectorAll(".search-type");
+
 let searchState;
 let inputRow = document.getElementById("input-row");
 
@@ -13,7 +14,7 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 for (button of searchButtons) {
-  if ((button.checked = true)) {
+  if (button.checked === true) {
     searchState = button.value;
   }
   button.addEventListener("click", (event) => {
@@ -22,11 +23,8 @@ for (button of searchButtons) {
 }
 //declare query function
 function fetchResponse(artist, song) {
-  let spinner = document.createElement("div");
-  spinner.classList.add("spinner-border", "text-light");
-  spinner.role = "status";
-  spinner.id = "spinner";
-  searchForm.appendChild(spinner);
+  //add spinner
+  toggleSpinner("add");
 
   console.log(artist);
   let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=${searchState}&limit=50`;
@@ -44,9 +42,26 @@ function fetchResponse(artist, song) {
       console.log(parsedResponse);
       outputDiv.replaceChildren();
       generateHTMLElements(parsedResponse.results);
-      let spinner = document.getElementById("spinner");
-      searchForm.removeChild(spinner);
+      toggleSpinner("remove");
     });
+}
+
+//Toggle spinner
+function toggleSpinner(behavior) {
+  if (behavior === "add") {
+    let spinner = document.createElement("div");
+    spinner.classList.add("spinner-border", "text-light", "text-center");
+    spinner.role = "status";
+
+    let spinRow = document.createElement("div");
+    spinRow.classList.add("row", "justify-content-center");
+    spinRow.id = "spin-row";
+    spinRow.appendChild(spinner);
+    searchForm.appendChild(spinRow);
+  } else if (behavior === "remove") {
+    let spinRow = document.getElementById("spin-row");
+    searchForm.removeChild(spinRow);
+  }
 }
 
 //Element Creation code
