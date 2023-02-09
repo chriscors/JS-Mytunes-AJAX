@@ -7,7 +7,6 @@ let playingSong = document.getElementById("playing-song");
 
 let searchState;
 let inputRow = document.getElementById("input-row");
-//import audio from "player.js";
 
 //add event listeners
 searchForm.addEventListener("submit", (event) => {
@@ -23,12 +22,14 @@ for (button of searchButtons) {
     searchState = button.value;
   });
 }
+
 //declare query function
 function fetchResponse(artist, song) {
   //add spinner
   toggleSpinner("add");
 
   console.log(artist);
+  //create url
   let url = `https://proxy-itunes-api.glitch.me/search?term=${artist}&mediatype=music&attribute=${searchState}&limit=50`;
   console.log(url);
   fetch(url, {
@@ -38,12 +39,16 @@ function fetchResponse(artist, song) {
     },
   })
     .then(function (response) {
+      //parse response
       return response.json();
     })
     .then(function (parsedResponse) {
       console.log(parsedResponse);
+      //clear div
       outputDiv.replaceChildren();
+      //populate results
       generateHTMLElements(parsedResponse.results);
+      //kill spinner
       toggleSpinner("remove");
     });
 }
@@ -51,10 +56,12 @@ function fetchResponse(artist, song) {
 //Toggle spinner
 function toggleSpinner(behavior) {
   if (behavior === "add") {
+    //create el, set status
     let spinner = document.createElement("div");
     spinner.classList.add("spinner-border", "text-light", "text-center");
     spinner.role = "status";
 
+    //center under row
     let spinRow = document.createElement("div");
     spinRow.classList.add("row", "justify-content-center");
     spinRow.id = "spin-row";
@@ -68,11 +75,12 @@ function toggleSpinner(behavior) {
 
 //Element Creation code
 function generateHTMLElements(response) {
+  //declare first row
   let row = [document.createElement("div")];
   row[0].classList.add("row");
   let counter = 0;
   for (const result of response) {
-    //get results
+    //get results, assign to variables
     let artist = result.artistName;
     let artworkURL = result.artworkUrl100;
     let trackName = result.trackName;
@@ -82,11 +90,12 @@ function generateHTMLElements(response) {
     let releaseYear = new Date(releaseDate).getFullYear();
     let genre = result.primaryGenreName;
 
+    //div to hold card
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("col-md-6", "col-lg-3", "mb-4");
     //create card
     let card = document.createElement("div");
-    card.style = "height: 8rem";
+    card.style = "height: 8rem"; //custom css to standardize height, move to styles.css
     card.classList.add("card", "flex-row", "bg-secondary");
 
     //nest Card
@@ -120,8 +129,8 @@ function generateHTMLElements(response) {
     artworkImg.src = artworkURL;
     artworkImg.alt = `Album artwork for album ${album}`;
     artworkImg.style = "max-height: 100px; max-width: 100px";
-    //put image in left column
-    leftCol.append(artworkImg);
+    // //put image in left column
+    // leftCol.append(artworkImg);
 
     //make play icon
     let playIcon = document.createElement("img");
@@ -140,8 +149,6 @@ function generateHTMLElements(response) {
     playIcon.addEventListener("click", (event) => {
       playIconClick(event, result, playIcon);
     });
-    //put image in left column
-    leftCol.append(artworkImg);
 
     //make cardBody
     let cardBody = document.createElement("div");
@@ -160,11 +167,11 @@ function generateHTMLElements(response) {
       trackName = `${trackName.substring(0, 29)}...`;
     }
     trackH.innerText = `${trackName}`;
-
+    //album name
     let albumP = document.createElement("p");
     albumP.classList.add("card-text", "text-white", "mb-0");
     albumP.innerText = `Album: ${album}`;
-
+    //year
     let releasedP = document.createElement("p");
     releasedP.classList.add("card-text", "text-muted");
     releasedP.innerText = `Year: ${releaseYear}`;
@@ -180,7 +187,7 @@ function generateHTMLElements(response) {
     counter++;
     row[row.length - 1].appendChild(cardDiv);
   }
-  //append all rows
+  //append all rows to the div
   for (const sect of row) {
     outputDiv.appendChild(sect);
   }
@@ -198,7 +205,8 @@ function playIconClick(event, result, icon) {
     icon.value = "paused";
     icon.classList.remove("playing-icon");
   }
+  //assign track title
   playingSong.innerText = result.trackName;
-  let url = result.previewUrl;
-  click(url);
+  //pass track url
+  click(result.previewUrl);
 }

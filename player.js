@@ -1,3 +1,6 @@
+//CREDIT: https://codeconvey.com/customize-html5-audio-player-css/
+//Muhammad Asif
+
 // Possible improvements:
 // - Change timeline and volume slider into input sliders, reskinned
 // - Change into Vue or React component
@@ -6,7 +9,6 @@
 
 const audioPlayer = document.querySelector(".audio-player");
 let audio = new Audio("");
-//credit for song: Adrian kreativaweb@gmail.com
 
 console.dir(audio);
 
