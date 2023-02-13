@@ -24,7 +24,7 @@ for (button of searchButtons) {
 }
 
 //declare query function
-function fetchResponse(artist, song) {
+function fetchResponse(artist) {
   //add spinner
   toggleSpinner("add");
 
@@ -84,18 +84,17 @@ function generateHTMLElements(response) {
     let artist = result.artistName;
     let artworkURL = result.artworkUrl100;
     let trackName = result.trackName;
-    let album = result.artistName;
+    let album = result.collectionName;
     let previewURL = result.previewUrl;
     let releaseDate = result.releaseDate;
     let releaseYear = new Date(releaseDate).getFullYear();
-    let genre = result.primaryGenreName;
 
     //div to hold card
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("col-md-6", "col-lg-3", "mb-4");
     //create card
     let card = document.createElement("div");
-    card.style = "height: 8rem"; //custom css to standardize height, move to styles.css
+    card.style = "height: 9rem"; //custom css to standardize height, move to styles.css
     card.classList.add("card", "flex-row", "bg-secondary");
 
     //nest Card
@@ -147,7 +146,7 @@ function generateHTMLElements(response) {
     rightCol.append(playIcon);
     //add event listener
     playIcon.addEventListener("click", (event) => {
-      playIconClick(event, result, playIcon);
+      playIconClick(event, result);
     });
 
     //make cardBody
@@ -167,8 +166,15 @@ function generateHTMLElements(response) {
       trackName = `${trackName.substring(0, 29)}...`;
     }
     trackH.innerText = `${trackName}`;
+    //artist name
+    let artistP = document.createElement("p");
+    artistP.classList.add("card-text", "text-white", "mb-0");
+    artistP.innerText = `Artist: ${artist}`;
     //album name
     let albumP = document.createElement("p");
+    if (album.length > 20) {
+      album = `${album.substring(0, 16)}...`;
+    }
     albumP.classList.add("card-text", "text-white", "mb-0");
     albumP.innerText = `Album: ${album}`;
     //year
@@ -177,7 +183,7 @@ function generateHTMLElements(response) {
     releasedP.innerText = `Year: ${releaseYear}`;
 
     //create node tree
-    cardBody.append(trackH, albumP, releasedP); //, previewDIV
+    cardBody.append(trackH, artistP, albumP, releasedP); //, previewDIV
     midCol.appendChild(cardBody);
     //every four cards create new row
     if (counter % 4 === 0 && counter > 0) {
@@ -193,17 +199,17 @@ function generateHTMLElements(response) {
   }
 }
 
-function playIconClick(event, result, icon) {
-  if (icon.value === "paused") {
-    icon.src =
+function playIconClick(event, result) {
+  if (event.target.value === "paused") {
+    event.target.src =
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/pause--v2.png";
-    icon.value = "playing";
-    icon.classList.add("playing-icon");
+    event.target.value = "playing";
+    event.target.classList.add("playing-icon");
   } else {
-    icon.src =
+    event.target.src =
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/play--v2.png";
-    icon.value = "paused";
-    icon.classList.remove("playing-icon");
+    event.target.value = "paused";
+    event.target.classList.remove("playing-icon");
   }
   //assign track title
   playingSong.innerText = result.trackName;
