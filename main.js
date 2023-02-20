@@ -91,7 +91,7 @@ function generateHTMLElements(response) {
 
     //div to hold card
     let cardDiv = document.createElement("div");
-    cardDiv.classList.add("col-md-6", "col-lg-3", "mb-4");
+    cardDiv.classList.add("col-md-6", "col-lg-4", "col-xl-3", "mb-4");
     //create card
     let card = document.createElement("div");
     card.style = "height: 9rem"; //custom css to standardize height, move to styles.css
