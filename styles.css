@@ -123,8 +123,14 @@ footer {
   width: 120px;
 }
 
-.card-text .card-title {
+.card-text,
+.card-title {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
+/* .card-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+} */

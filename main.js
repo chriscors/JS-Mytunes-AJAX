@@ -103,17 +103,17 @@ function generateHTMLElements(response) {
     //create columns
     let leftCol = document.createElement("div");
     leftCol.classList.add(
-      "col-md-3",
+      "col-3",
       "d-flex",
       "flex-column",
       "align-items-center",
       "justify-content-center"
     );
     let midCol = document.createElement("div");
-    midCol.classList.add("col-md-7");
+    midCol.classList.add("col-7");
     let rightCol = document.createElement("div");
     rightCol.classList.add(
-      "col-md-2",
+      "col-2",
       "d-flex",
       "justify-content-center",
       "align-items-center"
@@ -170,9 +170,7 @@ function generateHTMLElements(response) {
     artistP.innerText = `Artist: ${artist}`;
     //album name
     let albumP = document.createElement("p");
-    if (album.length > 20) {
-      album = `${album.substring(0, 16)}...`;
-    }
+
     albumP.classList.add("card-text", "text-white", "mb-0");
     albumP.innerText = `Album: ${album}`;
     //year
