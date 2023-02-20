@@ -91,7 +91,7 @@ function generateHTMLElements(response) {
 
     //div to hold card
     let cardDiv = document.createElement("div");
-    cardDiv.classList.add("col-md-6", "col-lg-4", "col-xl-3", "mb-4");
+    cardDiv.classList.add("col-md-6", "col-lg-4", "mb-4");
     //create card
     let card = document.createElement("div");
     card.style = "height: 9rem"; //custom css to standardize height, move to styles.css
@@ -162,9 +162,7 @@ function generateHTMLElements(response) {
     //make track header
     let trackH = document.createElement("h5");
     trackH.classList.add("card-title", "text-white", "mb-0");
-    if (trackName.length > 31) {
-      trackName = `${trackName.substring(0, 29)}...`;
-    }
+
     trackH.innerText = `${trackName}`;
     //artist name
     let artistP = document.createElement("p");
@@ -186,11 +184,11 @@ function generateHTMLElements(response) {
     cardBody.append(trackH, artistP, albumP, releasedP); //, previewDIV
     midCol.appendChild(cardBody);
     //every four cards create new row
-    if (counter % 4 === 0 && counter > 0) {
-      row[row.length] = document.createElement("div");
-      row[row.length - 1].classList.add("row");
-    }
-    counter++;
+    // if (counter % 4 === 0 && counter > 0) {
+    //   row[row.length] = document.createElement("div");
+    //   row[row.length - 1].classList.add("row");
+    // }
+    // counter++;
     row[row.length - 1].appendChild(cardDiv);
   }
   //append all rows to the div
